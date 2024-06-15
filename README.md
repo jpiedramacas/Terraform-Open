@@ -9,32 +9,7 @@ Terraform es una herramienta de infraestructura como código (IaC) que permite d
 ### Opción 1: Descarga desde la página oficial
 
 1. **Accede a la página oficial de Terraform:**
-   - [Página de descargas de Terraform](https://www.terraform.io/downloads)
-
-2. **Selecciona la versión adecuada para tu sistema operativo:**
-   - Descarga el archivo comprimido correspondiente (zip, tar.gz, etc.).
-
-3. **Descomprime el archivo descargado:**
-   - En Windows, puedes usar herramientas como WinRAR o 7-Zip.
-   - En macOS y Linux, puedes usar el comando `tar`:
-     ```sh
-     tar -xzf terraform_VERSION_OS_ARCH.zip
-     ```
-
-4. **Mueve el binario de Terraform a una ubicación incluida en tu PATH:**
-   - En Windows:
-     ```sh
-     move terraform.exe C:\Windows\System32\
-     ```
-   - En macOS y Linux:
-     ```sh
-     sudo mv terraform /usr/local/bin/
-     ```
-
-5. **Verifica la instalación:**
-   ```sh
-   terraform -v
-   ```
+   - [Terraform](https://www.terraform.io/downloads)
 
 ### Opción 2: Instalación usando Chocolatey (Windows)
 
@@ -43,11 +18,12 @@ Terraform es una herramienta de infraestructura como código (IaC) que permite d
      ```sh
      Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
      ```
-
+   - Desde la pagina página oficial [Chocolatey](https://chocolatey.org/install)
+     
 2. **Instala Terraform usando Chocolatey:**
    - Ejecuta el siguiente comando en PowerShell con privilegios de administrador:
      ```sh
-     choco install terraform
+     choco install terraform -y
      ```
 
 3. **Verifica la instalación:**
