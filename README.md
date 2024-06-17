@@ -34,6 +34,30 @@ Terraform es una herramienta de infraestructura como código (IaC) que permite d
 
 ## Comandos Fundamentales en Terraform
 
+Para ver todos los comandos de Terraform
+
+```sh
+terraform 
+```
+
+Podemos observar los comandos y una pequeña explicaciñon de ellos, tiene que aparecerte algo asi: 
+```sh
+$ terraform
+Usage: terraform [global options] <subcommand> [args]
+
+The available commands for execution are listed below.
+The primary workflow commands are given first, followed by
+less common or more advanced commands.
+
+Main commands:
+  init          Prepare your working directory for other commands
+  validate      Check whether the configuration is valid
+  plan          Show changes required by the current configuration
+  apply         Create or update infrastructure
+  destroy       Destroy previously-created infrastructure
+
+```
+
 ### 1. Inicialización del Proyecto
 
 Antes de usar Terraform, debes inicializar tu proyecto. Este comando descarga los proveedores necesarios y configura el entorno de trabajo para Terraform.
