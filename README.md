@@ -1,118 +1,144 @@
-# Terraform.tf
 
-## Introducción
+---
 
-Terraform es una herramienta de infraestructura como código (IaC) que permite definir y aprovisionar una infraestructura de manera declarativa y eficiente. Este README te guiará a través del proceso de instalación de Terraform y te introducirá a algunos de los comandos fundamentales.
+# Proyecto de Terraform: Aprovisionamiento Básico de AWS EC2
 
-## Instalación de Terraform
+Este proyecto de Terraform proporciona una guía detallada para aprovisionar una instancia de EC2 en AWS. Incluye todas las configuraciones necesarias y comandos para gestionar la infraestructura utilizando Terraform.
 
-### Opción 1: Descarga desde la página oficial
+## Requisitos Previos
 
-1. **Accede a la página oficial de Terraform:**
-   - [Terraform](https://www.terraform.io/downloads)
+- Cuenta de AWS con credenciales configuradas en tu máquina.
+- Terraform instalado en tu máquina local.
 
-### Opción 2: Instalación usando Chocolatey (Windows)
+## Estructura del Proyecto
 
-1. **Instala Chocolatey:**
-   - Abre una ventana de PowerShell con privilegios de administrador y ejecuta:
-     ```sh
-     Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-     ```
-   - Desde la pagina página oficial [Chocolatey](https://chocolatey.org/install)
-     
-2. **Instala Terraform usando Chocolatey:**
-   - Ejecuta el siguiente comando en PowerShell con privilegios de administrador:
-     ```sh
-     choco install terraform -y
-     ```
+- `main.tf`: Archivo principal de configuración de Terraform.
+- `variables.tf`: Definición de variables reutilizables.
+- `terraform.tfvars`: Valores para las variables definidas.
+- `outputs.tf`: Definición de valores de salida.
 
-3. **Verifica la instalación:**
-   ```sh
-   terraform -v
-   ```
+## Configuración
 
-## Comandos Fundamentales en Terraform
+### Paso 1: Configurar el Proveedor de AWS
 
-### 1. Inicialización del Proyecto
+El primer paso es configurar el proveedor de AWS. Esto se realiza en el archivo `main.tf`, donde especificamos la región en la que queremos desplegar nuestros recursos.
 
-Antes de usar Terraform, debes inicializar tu proyecto. Esto descarga los proveedores necesarios y configura el entorno de trabajo.
+```hcl
+# main.tf
+
+provider "aws" {
+  region = var.region
+}
+```
+
+### Paso 2: Definir Recursos
+
+En el archivo `main.tf`, definimos los recursos que queremos crear. En este caso, crearemos una instancia de EC2.
+
+```hcl
+resource "aws_instance" "mi_instancia" {
+  ami           = "ami-0c55b159cbfafe1f0" # ID de la imagen de Amazon Linux 2
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "MiInstanciaTerraform"
+  }
+}
+```
+
+### Paso 3: Definir Variables
+
+Para hacer nuestra configuración más flexible y reutilizable, utilizamos variables. Creamos un archivo `variables.tf` para definir estas variables.
+
+```hcl
+# variables.tf
+
+variable "region" {
+  description = "La región de AWS en la que se crearán los recursos."
+  default     = "us-west-2"
+}
+```
+
+### Paso 4: Proveer Valores a las Variables
+
+Proveemos valores para las variables definidas en `variables.tf` utilizando el archivo `terraform.tfvars`.
+
+```hcl
+# terraform.tfvars
+
+region = "us-west-2"
+```
+
+### Paso 5: Definir Valores de Salida
+
+Definimos valores de salida en el archivo `outputs.tf` para obtener información sobre los recursos creados. En este caso, queremos obtener el ID de la instancia de EC2.
+
+```hcl
+# outputs.tf
+
+output "instance_id" {
+  description = "El ID de la instancia de EC2."
+  value       = aws_instance.mi_instancia.id
+}
+```
+
+## Gestión de la Infraestructura
+
+### Inicializar el Proyecto
+
+Antes de trabajar con Terraform, necesitamos inicializar el directorio de trabajo. Este paso descarga los plugins necesarios para interactuar con los proveedores de nube especificados en la configuración.
 
 ```sh
 terraform init
 ```
 
-### 2. Planificación de Cambios
+### Planificar los Cambios
 
-Este comando genera y muestra un plan de ejecución, que describe los cambios que Terraform hará en la infraestructura.
+Generamos un plan de ejecución para prever los cambios que se harán en la infraestructura. Este comando muestra un resumen de las acciones que Terraform tomará para alcanzar el estado deseado definido en la configuración.
 
 ```sh
 terraform plan
 ```
 
-### 3. Aplicación de Cambios
+Revisa el plan cuidadosamente para asegurarte de que los cambios propuestos sean los esperados.
 
-Aplica los cambios necesarios para alcanzar el estado deseado de la configuración definida en los archivos de Terraform.
+### Aplicar los Cambios
+
+Después de revisar y confirmar el plan, aplicamos los cambios para aprovisionar los recursos.
 
 ```sh
 terraform apply
 ```
-- Para aplicar automáticamente los cambios sin solicitar confirmación, usa la opción `-auto-approve`:
-  ```sh
-  terraform apply -auto-approve
-  ```
 
-### 4. Destrucción de la Infraestructura
+Terraform te pedirá confirmación antes de proceder. Escribe `yes` para confirmar. Este comando comenzará a crear los recursos definidos en `main.tf`.
 
-Destruye toda la infraestructura administrada por Terraform.
+### Verificar el Estado
 
-```sh
-terraform destroy
-```
-- Para destruir automáticamente sin solicitar confirmación, usa la opción `-auto-approve`:
-  ```sh
-  terraform destroy -auto-approve
-  ```
-
-### 5. Visualización del Estado
-
-Muestra el estado actual de la infraestructura administrada por Terraform.
+Una vez que los recursos están aprovisionados, podemos verificar el estado actual de la infraestructura utilizando el siguiente comando:
 
 ```sh
 terraform show
 ```
 
-### 6. Inspección del Estado
+Este comando muestra información detallada sobre los recursos gestionados por Terraform.
 
-Muestra una lista más detallada de todos los recursos administrados por Terraform.
+### Destruir la Infraestructura
 
-```sh
-terraform state list
-```
-
-### 7. Extracción de Información de un Recurso Específico
-
-Muestra información detallada sobre un recurso específico administrado por Terraform.
+Cuando ya no necesitemos los recursos, podemos destruirlos usando el siguiente comando:
 
 ```sh
-terraform state show <RESOURCE_NAME>
+terraform destroy
 ```
 
-### 8. Validación de Configuración
+Terraform te pedirá confirmación antes de destruir los recursos. Escribe `yes` para confirmar. Este comando eliminará todos los recursos definidos en tu configuración.
 
-Valida la sintaxis y la estructura de los archivos de configuración de Terraform sin aplicar cambios.
+## Resumen de Comandos
 
-```sh
-terraform validate
-```
+1. **Inicializar el Proyecto**: `terraform init`
+2. **Planificar los Cambios**: `terraform plan`
+3. **Aplicar los Cambios**: `terraform apply`
+4. **Verificar el Estado**: `terraform show`
+5. **Destruir la Infraestructura**: `terraform destroy`
 
-### 9. Formateo de Archivos de Configuración
+---
 
-Formatea todos los archivos de configuración de Terraform en el directorio actual para que sigan un estilo de código coherente.
-
-```sh
-terraform fmt
-```
-
-## Conclusión
-
-Este README te ha proporcionado una guía detallada sobre cómo instalar Terraform y te ha introducido a algunos de los comandos más importantes. Para más información, puedes consultar la [documentación oficial de Terraform](https://www.terraform.io/docs). ¡Feliz aprovisionamiento de infraestructura!
