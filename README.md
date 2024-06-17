@@ -31,6 +31,19 @@ provider "aws" {
 }
 ```
 
+#### Explicación del Código
+
+- `provider "aws"`: Especifica que utilizaremos AWS como proveedor de nube.
+- `region = var.region`: Define la región en la que se crearán los recursos. La región se toma de una variable que definiremos más adelante.
+
+### Inicializar el Proyecto
+
+Antes de trabajar con Terraform, necesitamos inicializar el directorio de trabajo. Este paso descarga los plugins necesarios para interactuar con los proveedores de nube especificados en la configuración.
+
+```sh
+terraform init
+```
+
 ### Paso 2: Definir Recursos
 
 En el archivo `main.tf`, definimos los recursos que queremos crear. En este caso, crearemos una instancia de EC2.
@@ -46,6 +59,23 @@ resource "aws_instance" "mi_instancia" {
 }
 ```
 
+#### Explicación del Código
+
+- `resource "aws_instance" "mi_instancia"`: Define un recurso de tipo `aws_instance` llamado `mi_instancia`.
+- `ami = "ami-0c55b159cbfafe1f0"`: Especifica el ID de la imagen de Amazon Linux 2 que se utilizará para crear la instancia.
+- `instance_type = "t2.micro"`: Define el tipo de instancia (en este caso, una `t2.micro`).
+- `tags`: Añade etiquetas a la instancia para facilitar su identificación.
+
+### Planificar los Cambios
+
+Generamos un plan de ejecución para prever los cambios que se harán en la infraestructura. Este comando muestra un resumen de las acciones que Terraform tomará para alcanzar el estado deseado definido en la configuración.
+
+```sh
+terraform plan
+```
+
+Revisa el plan cuidadosamente para asegurarte de que los cambios propuestos sean los esperados.
+
 ### Paso 3: Definir Variables
 
 Para hacer nuestra configuración más flexible y reutilizable, utilizamos variables. Creamos un archivo `variables.tf` para definir estas variables.
@@ -59,6 +89,12 @@ variable "region" {
 }
 ```
 
+#### Explicación del Código
+
+- `variable "region"`: Define una variable llamada `region`.
+- `description`: Proporciona una descripción de la variable.
+- `default`: Establece un valor por defecto para la variable (en este caso, `us-west-2`).
+
 ### Paso 4: Proveer Valores a las Variables
 
 Proveemos valores para las variables definidas en `variables.tf` utilizando el archivo `terraform.tfvars`.
@@ -68,6 +104,20 @@ Proveemos valores para las variables definidas en `variables.tf` utilizando el a
 
 region = "us-west-2"
 ```
+
+#### Explicación del Código
+
+- `region = "us-west-2"`: Asigna el valor `us-west-2` a la variable `region`.
+
+### Aplicar los Cambios
+
+Después de revisar y confirmar el plan, aplicamos los cambios para aprovisionar los recursos.
+
+```sh
+terraform apply
+```
+
+Terraform te pedirá confirmación antes de proceder. Escribe `yes` para confirmar. Este comando comenzará a crear los recursos definidos en `main.tf`.
 
 ### Paso 5: Definir Valores de Salida
 
@@ -82,35 +132,11 @@ output "instance_id" {
 }
 ```
 
-## Gestión de la Infraestructura
+#### Explicación del Código
 
-### Inicializar el Proyecto
-
-Antes de trabajar con Terraform, necesitamos inicializar el directorio de trabajo. Este paso descarga los plugins necesarios para interactuar con los proveedores de nube especificados en la configuración.
-
-```sh
-terraform init
-```
-
-### Planificar los Cambios
-
-Generamos un plan de ejecución para prever los cambios que se harán en la infraestructura. Este comando muestra un resumen de las acciones que Terraform tomará para alcanzar el estado deseado definido en la configuración.
-
-```sh
-terraform plan
-```
-
-Revisa el plan cuidadosamente para asegurarte de que los cambios propuestos sean los esperados.
-
-### Aplicar los Cambios
-
-Después de revisar y confirmar el plan, aplicamos los cambios para aprovisionar los recursos.
-
-```sh
-terraform apply
-```
-
-Terraform te pedirá confirmación antes de proceder. Escribe `yes` para confirmar. Este comando comenzará a crear los recursos definidos en `main.tf`.
+- `output "instance_id"`: Define un valor de salida llamado `instance_id`.
+- `description`: Proporciona una descripción del valor de salida.
+- `value`: Especifica el valor a mostrar, en este caso, el ID de la instancia de EC2 creada.
 
 ### Verificar el Estado
 
@@ -132,13 +158,6 @@ terraform destroy
 
 Terraform te pedirá confirmación antes de destruir los recursos. Escribe `yes` para confirmar. Este comando eliminará todos los recursos definidos en tu configuración.
 
-## Resumen de Comandos
-
-1. **Inicializar el Proyecto**: `terraform init`
-2. **Planificar los Cambios**: `terraform plan`
-3. **Aplicar los Cambios**: `terraform apply`
-4. **Verificar el Estado**: `terraform show`
-5. **Destruir la Infraestructura**: `terraform destroy`
-
 ---
 
+Este README proporciona una guía completa y detallada para empezar a utilizar Terraform y aprovisionar una instancia de EC2 en AWS. ¡Sigue los pasos y comandos proporcionados para gestionar tu infraestructura de manera eficiente!
