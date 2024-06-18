@@ -18,7 +18,7 @@ Terraform es una herramienta de infraestructura como código (IaC) que permite d
      ```sh
      Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
      ```
-   - Desde la pagina página oficial [Chocolatey](https://chocolatey.org/install)
+   - Desde la página oficial [Chocolatey](https://chocolatey.org/install)
      
 2. **Instala Terraform usando Chocolatey:**
    - Ejecuta el siguiente comando en PowerShell con privilegios de administrador:
