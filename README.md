@@ -30,7 +30,42 @@ Terraform es una herramienta de infraestructura como código (IaC) que permite d
    ```sh
    terraform -v
    ```
+### Opción 3: Amazon Linux
 
+1. **Actualiza el sistema operativo:**
+   Este comando asegurará que todos los paquetes instalados estén actualizados.
+
+   ```bash
+   sudo yum update -y
+   ```
+
+2. **Instala `yum-config-manager`:**
+   Esto es necesario para agregar y administrar nuevos repositorios.
+
+   ```bash
+   sudo yum install -y yum-utils
+   ```
+
+3. **Agrega el repositorio de HashiCorp:**
+   HashiCorp proporciona un repositorio oficial para Amazon Linux, que facilita la instalación y actualización de Terraform.
+
+   ```bash
+   sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+   ```
+
+4. **Instala Terraform:**
+   Este comando instalará Terraform desde el repositorio que acabas de agregar.
+
+   ```bash
+   sudo yum install -y terraform
+   ```
+
+5. **Verifica la instalación:**
+   Asegúrate de que Terraform se haya instalado correctamente y verifica la versión instalada.
+
+   ```bash
+   terraform -version
+   ```
 
 ## Comandos Fundamentales en Terraform
 
