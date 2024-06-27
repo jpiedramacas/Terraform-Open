@@ -1,5 +1,8 @@
 # Terraform.tf
 
+##Workshop
+Varios proyectos para practicar en la plataforma de [Terraform](https://hashicorp.github.io/workshops/)
+
 ## Introducción
 
 Terraform es una herramienta de infraestructura como código (IaC) que permite definir y aprovisionar una infraestructura de manera declarativa y eficiente. Este README te guiará a través del proceso de instalación de Terraform y te introducirá a algunos de los comandos fundamentales.
